@@ -82,6 +82,7 @@ namespace MoviesApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AgeIntervalActor]
+        [MinLengthAttribute]
         public IActionResult Create([Bind("FirstName,LastName,DateOfBirth")] InputActorViewModel inputModel)
         {
             var newActor = new Actor
@@ -103,6 +104,7 @@ namespace MoviesApp.Controllers
         }
 
         [HttpGet]
+        [MinLengthAttribute]
         // GET: Actors/Edit/5
         public IActionResult Edit(int? id)
         {

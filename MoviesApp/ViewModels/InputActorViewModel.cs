@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MoviesApp.Models;
+using MoviesApp.Filters;
 
 namespace MoviesApp.ViewModels
 {
@@ -11,8 +12,10 @@ namespace MoviesApp.ViewModels
         {
             Movies = new HashSet<Movie>();
         }
+        [Filters.MinLengthAttribute]
         public string FirstName { get; set; }
-
+        
+        [Filters.MinLengthAttribute]
         public string LastName { get; set; }
         
         [DataType(DataType.Date)]
