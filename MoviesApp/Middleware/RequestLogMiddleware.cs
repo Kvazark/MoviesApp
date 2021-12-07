@@ -23,7 +23,6 @@ namespace MoviesApp.Middleware
                 _logger.LogTrace($"Actor request: {httpContext.Request.Path.Value}  Method: {httpContext.Request.Method}");
             }
             await _next(httpContext);
-
         }
     }
 }
