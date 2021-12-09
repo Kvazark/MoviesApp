@@ -8,7 +8,7 @@ namespace MoviesApp.Models
     {
         public Movie()
         {
-            Actors = new List<ActorsMovies>();
+            Actors = new HashSet<ActorsMovies>();
         }
         public int Id { get; set; }
         public string Title { get; set; }

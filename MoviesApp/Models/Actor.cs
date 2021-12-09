@@ -9,7 +9,7 @@ namespace MoviesApp.Models
     {
         public Actor()
         {
-            Movies = new List<ActorsMovies>();
+            Movies = new HashSet<ActorsMovies>();
         }
         public int Id { get; set; }
         public string FirstName { get; set; }
