@@ -31,15 +31,25 @@
             @Model.DateOfBirth.ToString("dd.MM.yyyy")
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="Movies"></label>
+            <h6>Movies:</h6>
         </dt>
-        <dd class="col-sm-10">
-            @foreach (var movie in @Model.Movies)
+        @if (Model.ActorMovies.Count() != 0)
             {
-                <p>@movie.Title</p>
+                <div>
+                    @foreach (var item in Model.ActorMovies)
+                    {
+                        <dd class="col-sm-2">
+                        @item.Title
+                        </dd>
+                    }
+                </div>
             }
-        </dd>
+            else
+            {
+                <p class="card-text">Films with the participation of @Model.FirstName @Model.LastName was not found.</p>
+            }
     </dl>
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

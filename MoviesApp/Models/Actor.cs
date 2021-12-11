@@ -9,7 +9,7 @@ namespace MoviesApp.Models
     {
         public Actor()
         {
-            Movies = new HashSet<ActorsMovies>();
+            this.ActorsMovies = new HashSet<ActorsMovies>();
         }
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -19,6 +19,6 @@ namespace MoviesApp.Models
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
         
-       public virtual ICollection<ActorsMovies> Movies { get; set; }
+       public virtual ICollection<ActorsMovies> ActorsMovies { get; set; }
     }
 }

@@ -22,6 +22,9 @@
         <th>
             <label asp-for="@Model.First().DateOfBirth"></label>
         </th>
+        <th>
+            <label asp-for="@Model.First().ActorMovies"></label>
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -36,6 +39,9 @@
             </td>
             <td>
                 @item.DateOfBirth.ToString("dd.MM.yyyy")
+            </td>
+            <td>
+                @item.ActorMovies.Count()
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

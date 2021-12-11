@@ -7,20 +7,22 @@ using Microsoft.Extensions.Logging;
 using MoviesApp.Data;
 using MoviesApp.Filters;
 using MoviesApp.Models;
+using MoviesApp.Services;
+using MoviesApp.Services.Dto;
 using MoviesApp.ViewModels;
 
 namespace MoviesApp.Controllers
 {
     public class ActorsController : Controller
     {
-        private readonly MoviesContext _context;
+        private readonly IActorService _service;
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
 
 
-        public ActorsController(MoviesContext context, ILogger<HomeController> logger, IMapper mapper)
+        public ActorsController(IActorService service, ILogger<HomeController> logger, IMapper mapper)
         {
-            _context = context;
+            _service = service;
             _logger = logger;
             _mapper = mapper;
         }
@@ -29,8 +31,7 @@ namespace MoviesApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var actors = _mapper.Map<IEnumerable<Actor>, IEnumerable<ActorViewModel>>(_context.Actors
-                .ToList());
+            var actors = _mapper.Map<IEnumerable<ActorDto>, IEnumerable<ActorViewModel>>(_service.GetAllActors());
             return View(actors);
         }
 
@@ -43,7 +44,7 @@ namespace MoviesApp.Controllers
                 return NotFound();
             }
             
-            var viewModel = _mapper.Map<ActorViewModel>(_context.Actors.FirstOrDefault(a => a.Id == id));
+            var viewModel = _mapper.Map<ActorViewModel>(_service.GetActor((int) id));
 
 
             if (viewModel == null)
@@ -62,9 +63,6 @@ namespace MoviesApp.Controllers
         }
 
         // POST: Actors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AgeIntervalActor]
@@ -73,10 +71,9 @@ namespace MoviesApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(_mapper.Map<Actor>(inputModel));
-                _context.SaveChanges();
-
+                _service.AddActor(_mapper.Map<ActorDto>(inputModel));
                 return RedirectToAction(nameof(Index));
+                
             }
 
             return View(inputModel);
@@ -92,21 +89,17 @@ namespace MoviesApp.Controllers
                 return NotFound();
             }
 
-            var editModel = _mapper.Map<EditActorViewModel>(_context.Actors.FirstOrDefault(a => a.Id == id));
+            var editModel = _mapper.Map<EditActorViewModel>(_service.GetActor((int) id));
 
             if (editModel == null)
             {
                 return NotFound();
             }
 
-           // editModel.AllMovies = _context.Movies.ToList();
-
             return View(editModel);
         }
 
-        // POST: Movies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Actors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AgeIntervalActor]
@@ -114,29 +107,18 @@ namespace MoviesApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var actor = _mapper.Map<ActorDto>(editModel);
+                actor.Id = id;
+                
+                var result = _service.UpdateActor(actor);
+                
+                if (result == null)
                 {
-                    var actor = _mapper.Map<Actor>(editModel);
-                    actor.Id = id;
-
-                    _context.Update(actor);
-                    _context.SaveChanges();
+                    return NotFound();
                 }
-                catch (DbUpdateException)
-                {
-                    if (!ActorExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
+                
                 return RedirectToAction(nameof(Index));
             }
-
             return View(editModel);
         }
 
@@ -149,7 +131,7 @@ namespace MoviesApp.Controllers
                 return NotFound();
             }
 
-            var deleteModel = _mapper.Map<DeleteActorViewModel>(_context.Actors.FirstOrDefault(a => a.Id == id));
+            var deleteModel = _mapper.Map<DeleteActorViewModel>(_service.GetActor((int) id));
 
             if (deleteModel == null)
             {
@@ -164,16 +146,14 @@ namespace MoviesApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var actor = _context.Actors.Find(id);
-            _context.Actors.Remove(actor);
-            _context.SaveChanges();
-            _logger.LogError($"Actor with id {actor.Id} has been deleted!");
+            var actor = _service.DeleteActor(id);
+            if (actor==null)
+            {
+                return NotFound();
+            }
+            _logger.LogTrace($"Actor with id {actor.Id} has been deleted!");
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ActorExists(int id)
-        {
-            return _context.Actors.Any(e => e.Id == id);
-        }
+        
     }
 }

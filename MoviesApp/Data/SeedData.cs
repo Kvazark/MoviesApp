@@ -61,10 +61,31 @@ namespace MoviesApp.Data
                         FirstName = "Harold",
                         LastName = "Ramis",
                         DateOfBirth = DateTime.Parse("1944-11-21")
+                    },
+                    new Actor {
+                        FirstName = "Anne",
+                        LastName = "Hathaway",
+                        DateOfBirth = DateTime.Parse("1982-11-12")
                     }
                     );
-                
                 context.SaveChanges();
+                if (!context.ActorsMovies.Any())
+                {
+                    context.ActorsMovies.AddRange(
+                        new ActorsMovies
+                        {
+                            ActorId = 3, MovieId = 5
+                        },
+                    new ActorsMovies
+                    {
+                        ActorId = 3, MovieId = 7
+                    },
+                    new ActorsMovies
+                    {
+                        ActorId = 14, MovieId = 5
+                    });
+                    context.SaveChanges();
+                }
             }
         }
     }
