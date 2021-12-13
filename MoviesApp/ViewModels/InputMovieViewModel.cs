@@ -1,11 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MoviesApp.Filters;
+using MoviesApp.Models;
 
 namespace MoviesApp.ViewModels
 {
     public class InputMovieViewModel
     {
+        public InputMovieViewModel()
+        {
+            ActorsMovie = new HashSet<ActorsMovies>();
+        }
         public int? Id { get; set; }
         
         [Required]
@@ -24,5 +30,6 @@ namespace MoviesApp.ViewModels
         [Required]
         [Range(0, 999.99)]
         public decimal Price { get; set; }
+        public ICollection<ActorsMovies> ActorsMovie { get; set; }
     }
 }

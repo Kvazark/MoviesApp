@@ -11,5 +11,6 @@ namespace MoviesApp.Services
         ActorDto UpdateActor(ActorDto actorDto);
         ActorDto AddActor(ActorDto actorDto);
         ActorDto DeleteActor(int id);
+        
     }
 }

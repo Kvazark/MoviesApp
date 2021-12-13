@@ -14,22 +14,23 @@
     <thead>
     <tr>
         <th>
-            <label asp-for="@Model.First().FirstName"></label>
+             <p class="card-text-center">First name</p>
         </th>
         <th>
-            <label asp-for="@Model.First().LastName"></label>
+             <p class="card-text-center">Last name</p>
         </th>
         <th>
-            <label asp-for="@Model.First().DateOfBirth"></label>
+            <p class="card-text-center">Date of birthday</p>
         </th>
         <th>
-            <label asp-for="@Model.First().ActorMovies"></label>
+            <p class="card-text-center">Movies</p>
         </th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @item.FirstName

@@ -11,8 +11,9 @@ namespace MoviesApp.ViewModels
         public InputActorViewModel()
         {
             ActorMovies = new HashSet<ActorsMovies>();
-            Movies = new HashSet<Movie>();
         }
+        public int? Id { get; set; }
+        
         [Required]
         [Filters.MinLengthAttribute]
         public string FirstName { get; set; }
@@ -26,6 +27,6 @@ namespace MoviesApp.ViewModels
         public DateTime DateOfBirth { get; set; }
         
         public ICollection<ActorsMovies> ActorMovies { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+       
     }
 }

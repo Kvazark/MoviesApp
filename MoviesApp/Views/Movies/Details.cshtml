@@ -33,7 +33,30 @@
         </dt>
         <dd class = "col-sm-10">
             @Model.Price
-        </dd>
+        <dt class="col-sm-2">
+                   <h5.5>Actors:</h5.5>
+            </dt>
+        @if (Model.ActorsMovie.Count() != 0)
+                {
+                    <div>
+                        <details>
+                            <summary> show actors </summary>
+                            <p>
+                                @foreach (var item in Model.ActorsMovie)
+                                {
+                                    <dd class="col-sm-2">
+                                         <p class="card-text-center">@item.FirstName @item.LastName</p>
+                                    </dd>
+                                }
+                            </p>
+                        </details>
+                    </div>
+                }
+        
+                else
+                {
+                    <p class="card-text">The actors of the film @Model.Title are unknown.</p>
+                }
     </dl>
 </div>
 <div>

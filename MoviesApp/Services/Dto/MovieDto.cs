@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MoviesApp.Filters;
 
@@ -24,5 +25,7 @@ namespace MoviesApp.Services.Dto
         [Required]
         [Range(0, 999.99)]
         public decimal Price { get; set; }
+        
+        public virtual ICollection<ActorDto> Actors { get; set; }
     }
 }

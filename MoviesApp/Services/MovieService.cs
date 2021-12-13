@@ -21,12 +21,17 @@ namespace MoviesApp.Services
         
         public MovieDto GetMovie(int id)
         {
-            return _mapper.Map<MovieDto>(_context.Movies.FirstOrDefault(m => m.Id == id));
+            return _mapper.Map<MovieDto>(_context.Movies
+                .Include(m=>m.ActorsMovies)
+                .ThenInclude(m=>m.Actor)
+                .FirstOrDefault(m => m.Id == id));
         }
 
         public IEnumerable<MovieDto> GetAllMovies()
         {
-            return _mapper.Map<IEnumerable<Movie>, IEnumerable<MovieDto>>(_context.Movies.ToList());
+            return _mapper.Map<IEnumerable<Movie>, IEnumerable<MovieDto>>(_context.Movies.Include(a=>a.ActorsMovies)
+                .ThenInclude((m=>m.Actor))
+                .ToList());
         }
 
         public MovieDto UpdateMovie(MovieDto movieDto)

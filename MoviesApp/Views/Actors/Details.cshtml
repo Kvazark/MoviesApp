@@ -31,23 +31,29 @@
             @Model.DateOfBirth.ToString("dd.MM.yyyy")
         </dd>
         <dt class="col-sm-2">
-            <h6>Movies:</h6>
+            <h5.5>Movies:</h5.5>
         </dt>
         @if (Model.ActorMovies.Count() != 0)
-            {
-                <div>
-                    @foreach (var item in Model.ActorMovies)
-                    {
-                        <dd class="col-sm-2">
-                        @item.Title
-                        </dd>
-                    }
-                </div>
-            }
-            else
-            {
-                <p class="card-text">Films with the participation of @Model.FirstName @Model.LastName was not found.</p>
-            }
+        {
+            <div>
+                <details>
+                    <summary> show movies </summary>
+                    <p>
+                        @foreach (var item in Model.ActorMovies)
+                        {
+                            <dd class="col-sm-2">
+                                @item.Title
+                            </dd>
+                        }
+                    </p>
+                </details>
+            </div>
+        }
+
+        else
+        {
+            <p class="card-text">Films with the participation of @Model.FirstName @Model.LastName was not found.</p>
+        }
     </dl>
 
 </div>

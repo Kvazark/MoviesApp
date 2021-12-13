@@ -9,7 +9,7 @@ namespace MoviesApp.Models
     {
         public Movie()
         {
-            this.Actors = new HashSet<ActorsMovies>();
+            this.ActorsMovies = new HashSet<ActorsMovies>();
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -21,6 +21,6 @@ namespace MoviesApp.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         
-        public virtual ICollection<ActorsMovies> Actors { get; set; }
+        public virtual ICollection<ActorsMovies> ActorsMovies { get; set; }
     }
 }
