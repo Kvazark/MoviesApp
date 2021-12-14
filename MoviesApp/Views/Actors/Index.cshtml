@@ -6,18 +6,21 @@
 }
 
 <h1>Index</h1>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
     <tr>
         <th>
-             <p class="card-text-center">First name</p>
+            <p class="card-text-center">First name</p>
         </th>
         <th>
-             <p class="card-text-center">Last name</p>
+            <p class="card-text-center">Last name</p>
         </th>
         <th>
             <p class="card-text-center">Date of birthday</p>
@@ -44,11 +47,20 @@
             <td>
                 @item.ActorMovies.Count()
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            }
         </tr>
     }
     </tbody>

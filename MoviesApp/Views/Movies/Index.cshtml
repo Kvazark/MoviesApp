@@ -7,9 +7,12 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
     <tr>
@@ -17,7 +20,7 @@
             <label asp-for="@Model.First().Title"></label>
         </th>
         <th>
-             <label asp-for="@Model.First().ReleaseDate"></label>
+            <label asp-for="@Model.First().ReleaseDate"></label>
         </th>
         <th>
             <label asp-for="@Model.First().Genre"></label>
@@ -29,7 +32,8 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @item.Title
@@ -43,11 +47,22 @@
             <td>
                 @item.Price
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                </td>
+                
+            }
         </tr>
     }
     </tbody>
